@@ -1,5 +1,5 @@
 <template>
-    <div id="about" class="rounded bg-dark mt-5 text-light mx-auto">
+    <div id="about" class="rounded mt-5 text-light mx-auto shadow-lg">
         <h1 class="p-2 text-center">About</h1>
         <img class="rounded" src="../assets/rsz_husla.jpg" width="200" alt="image of autor">
         <p class="p-4">I am math, sience and tech enthusiast. This game was created
@@ -18,7 +18,8 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
     #about{
-        width:400px
+        width:400px;
+        background-image: linear-gradient(to right bottom, #008a85, #008585, #007f85, #007a84, #007482);
     }
     img{
         position: relative;

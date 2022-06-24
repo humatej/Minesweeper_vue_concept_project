@@ -1,13 +1,13 @@
 <template>
     <div class="container d-flex justify-content-center pt-3">
-        <div id="gam_set" class="d-flex justify-content-between align-center p-2">
+        <div id="gam_set" class="rounded shadow-lg d-flex justify-content-between align-center p-2">
             <div class="btn-group dropup">
-                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn shadow-lg darker-green text-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     {{this.currentDif}}
                 </button>
-                <ul id="dif" class="dropdown-menu bg-dark">
+                <ul id="dif" class="dropdown-menu">
                     <li class="text-center" v-for="item in dif_list" :key="item">
-                        <a @click="setDif(item)" class="btn btn-dark border-bottom border-1 m-1">{{item}}</a>
+                        <a @click="setDif(item)" class="text-light btn border-bottom border-1 m-1">{{item}}</a>
                     </li>
                 </ul>
             </div>
@@ -15,7 +15,7 @@
                 {{this.time.text}}
             </div>
             <div>
-                <a @click="start" class="btn btn-dark p-2">New Game</a>
+                <a @click="start" id="startBtn" class="darker-green btn p-2 text-light shadow-lg">New Game</a>
             </div>
         </div>
         <div v-show="modal.open" id="endGame" class="bg-success text-light" :class="this.modal.win ? 'bg-success':'bg-danger'">
@@ -148,10 +148,17 @@ export default defineComponent({
 <style scoped lang="scss">
     $widthPx: 500px;
     $delay: .3s;
+    .darker-green{
+        background-image: linear-gradient(to right bottom, #006d52, #00654c, #005c45, #00543f, #004c39);
+    }
+    .darker-green:hover{
+        background-image: linear-gradient(to right bottom, #004c39, #004534, #003f2f, #00382a, #003225);
+    }
     #gam_set{
         width: $widthPx;
         height: 60px;
-        box-shadow: 1px 2px 10px 1px rgb(0,0,0);
+        background-image: linear-gradient(to right bottom, #03b365, #00b068, #00ad6b, #00aa6e, #00a770);
+
     }
     button{
         width: $widthPx / 3;
@@ -184,5 +191,11 @@ export default defineComponent({
         top:0%;
         left:90%;
         font-weight: 500;
+    }
+    #dif{
+        background-image: linear-gradient(to right bottom, #006d52, #00654c, #005c45, #00543f, #004c39);
+    }
+    #dif li a:hover{
+         background-image: linear-gradient(to right bottom, #004c39, #004534, #003f2f, #00382a, #003225);
     }
 </style>

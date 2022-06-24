@@ -1,5 +1,5 @@
 <template>
-    <nav id="main_nav" class="bg-dark navbar navbar-expand-sm navbar-lightshadow-lg">
+    <nav id="main_nav" class="bg-dark navbar navbar-expand-sm navbar-light shadow-lg">
         <div class="container-fluid">
             <div class="collapse d-flex justify-content-center navbar-collapse text-center" id="navbarID">
                 <div id="navbar" class="d-flex justify-content-center">
@@ -33,5 +33,8 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-   
+   #main_nav{
+        background-image: linear-gradient(to right bottom, #03b365, #00b068, #00ad6b, #00aa6e, #00a770);
+
+   }
 </style>

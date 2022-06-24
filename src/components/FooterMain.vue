@@ -1,5 +1,5 @@
 <template>
-    <nav id="footer" class="navbar navbar-expand-sm navbar-dark mt-5">
+    <nav id="footer" class="navbar navbar-expand-sm navbar-dark">
       <div class="container-fluid d-flex flex-column justify-content-center text-light">
           <p class="p-1">This page was created by <a href="#">Matej Hušla</a></p>
           <p class="p-1">2022 ©</p>
@@ -15,9 +15,8 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-    $color: rgba(54, 54, 54, 0.973);
     #footer{
-        background-color: $color;
+        background-image: linear-gradient(to right bottom, #003600, #003101, #012b01, #022601, #002100);
         position: absolute;
         top:100%;
         width:100%;

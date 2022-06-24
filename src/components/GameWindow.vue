@@ -1,9 +1,9 @@
 <template>
     <div class="container d-flex flex-column justify-content-center pt-3">
-        <div id="checkedCounter" class="text-light text-center mb-2">
-            <h3 class="bg-dark ps-3 pe-3 pt-2 pb-2 mx-auto">Mines left: {{this.ginit.mines - this.allChecked}}</h3>
+        <div id="checkedCounter" class="text-light text-center mt-3">
+            <h3 class="rounded ps-3 pe-3 pt-2 pb-2 mx-auto">Mines left: {{this.ginit.mines - this.allChecked}}</h3>
         </div>
-        <div :style="wnddim"  id="game_window" class="container-fluid  border border-3 " oncontextmenu="return false">
+        <div :style="wnddim"  id="game_window" class="container-fluid rounded shadow-lg" oncontextmenu="return false">
             <div class="row" v-for="line in sets" :key="line">
                 <GameBox  @setcheck="setchecked" @loc="uncover" :atr='val' :w="w" v-for="val in line" :key="val"/>
             </div>
@@ -35,16 +35,16 @@ export default defineComponent({
         }
         // in pixels
         let space = 5
-        let rec = ((wind - (n+1)*space-6) / n).toString() + "px"
+        let rect = ((wind - (n+1)*space) / n).toString() + "px"
         let wnd = wind.toString() + "px"
-        let mrg = space.toString() + "px"
-        let clr = "rgb(100,100,100)"
+        let margin = space.toString() + "px"
+        let color = "#00525C"
         const w = ref({
-            width: rec,
-            height: rec,
-            marginLeft: mrg,
-            marginTop: mrg,
-            background: clr
+            width: rect,
+            height: rect,
+            marginLeft: margin,
+            marginTop: margin,
+            background: color
         })
         const wnddim = ref({
             size: wind,
@@ -259,25 +259,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-    $interval: 0.3s;
-    $shadowcolor: rgb(255, 255, 255);
-    $shadow: 0px 0px 100px 0px;
-    //set transparency of color
-    @function color($color,$opacity:1){
-        @return rgba($color,$opacity);
-    }
-    h1{
-        box-shadow: 1px 2px 3px 3px black;
-        width: 100%;
+    h3{
+        background-image: linear-gradient(to right bottom, #008a85, #008585, #007f85, #007a84, #007482);
     }
     #game_window{
-        background-color: rgb(189, 189, 189);
-        box-shadow: $shadow color($shadowcolor,0.5);
-        transition:$interval;
-    }
-    #game_window:hover{
-        box-shadow: $shadow color($shadowcolor,);
-        transition:$interval;
+        background-color: #1b2a33;
+        border:3px solid transparent;
     }
     #game{
         width: 100%;
@@ -288,6 +275,5 @@ export default defineComponent({
     }
     #checkedCounter h3{
         width: 250px;
-        box-shadow: 1px 2px 10px 1px rgb(0,0,0);
     }
 </style>
