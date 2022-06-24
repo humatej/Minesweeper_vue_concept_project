@@ -1,8 +1,7 @@
 <template>
     <div>
         <GameWindow @gameEnd="gameEnd" @started="stopWatchSet" ref="gw"/>
-        <GameSettings :playerGameData="this.playerGameData" @passDif="sendDif" @gameNew="startNew" ref="gs"/>
-        
+        <GameSettings :playerGameData="this.playerGameData" @passDif="sendDif" @gameNew="startNew" ref="gs"/>    
     </div>
 </template>
 <script lang="ts">

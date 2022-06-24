@@ -24,7 +24,6 @@ export default defineComponent({
                 link: "About",
                 route: "/about"
             }
-        
         ])
         return {links}
     },
