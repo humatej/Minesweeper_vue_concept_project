@@ -1,5 +1,5 @@
 <template>
-    <v-rect class="d-flex justify-content-center align-items-center text-light" v-on:click.right="check"  @click="send" :style="w" :class="setBg">
+    <v-rect class="user-select-none d-flex justify-content-center align-items-center text-light" v-on:click.right="check"  @click="send" :style="w" :class="setBg">
         {{atr.num  > 0 && atr.vis && !atr.checked? atr.num: ''}}
         <i class="bi bi-flag-fill" v-show="atr.checked"></i>
         <i v-show="atr.vis && atr.mine && !atr.checked" class="bi bi-patch-exclamation-fill"></i>
@@ -53,11 +53,24 @@ export default defineComponent({
 <style lang="scss">
     $delay: 0.2s;
     .unchecked{
+        position: relative;
         background-image: linear-gradient(to right bottom, #008a85, #008585, #007f85, #007a84, #007482)!important;
         transition: $delay;
+        z-index: 1;
     }
-    .unchecked:hover{
-        background-image: radial-gradient(circle, #75b3bb, #5fa9af, #489fa1, #2e9494, #008a85)!important;
+    .unchecked::before{
+        background-image: linear-gradient(to right bottom, #2f4858, #2f4258, #343b55, #3a3450, #412c48)!important;
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         transition: $delay;
+        z-index: -1;
+        opacity: 0;
+    }
+    .unchecked:hover::before{
+        opacity: 1;
     }
 </style>

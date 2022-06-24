@@ -147,12 +147,27 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
     $widthPx: 500px;
-    $delay: .3s;
+    $delay: .15s;
     .darker-green{
+        transition: $delay;
+        position: relative;
+        z-index: 1;
         background-image: linear-gradient(to right bottom, #006d52, #00654c, #005c45, #00543f, #004c39);
     }
-    .darker-green:hover{
+    .darker-green::before{
         background-image: linear-gradient(to right bottom, #004c39, #004534, #003f2f, #00382a, #003225);
+        position: absolute;
+        content: "";
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transition: $delay;
+        z-index: -1;
+        opacity: 0;
+    }
+    .darker-green:hover::before{
+        opacity: 1;
     }
     #gam_set{
         width: $widthPx;
@@ -167,6 +182,7 @@ export default defineComponent({
         width: $widthPx / 3;
     }
     #endGame{
+        z-index: 2;
         position: fixed;
         top: 50%;
         left: 50%;
