@@ -1,4 +1,5 @@
 # minesweeper_game
+This is learning project in Vue js
 
 ## Project setup
 ```
