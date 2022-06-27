@@ -68,25 +68,26 @@ export default defineComponent({
         async stopWatch(){
             this.time.newGame = false
             let t = new Date()
-            let t1 = t.getTime()
+            let tempTime = t.getTime()
             let time = {
                 min: 0,
                 sec: 0,
                 milis: 0 
             }
             let tempText = ""
+            //update time text every 10 milliseconds and make it stop when game is over
             while(!this.time.newGame){
                 await new Promise(resolve => setTimeout(resolve));
                 t = new Date()
-                if(t.getTime() - t1 > 0){
-                    time.milis += t.getTime() - t1
-                    t1 = t.getTime()
+                if(t.getTime() - tempTime > 0){
+                    time.milis += t.getTime() - tempTime
+                    tempTime = t.getTime()
                 }
                 if(time.milis > 999){
-                    time.milis -= 1000
+                    time.milis = 0
                     time.sec++
                     if(time.sec > 59){
-                        time.sec -= 60
+                        time.sec = 0
                         time.min++
                     }
                 }
@@ -94,32 +95,24 @@ export default defineComponent({
 
                 //set minutes format
                 if(time.min < 10){
-                    tempText += "0" + time.min.toString()
+                    tempText += "0"
                 }
-                else{
-                    tempText += time.min.toString()
-                }
-                tempText += ":"
+                tempText += time.min.toString() + ":"
 
-                //set second format                                                                                                                                                                                                                                                  
+                //set second format                                                                                                                                                                                                                                      
                 if(time.sec < 10){
-                    tempText += "0" + time.sec.toString()
+                    tempText += "0"
                 }
-                else{
-                    tempText += time.sec.toString()
-                }
-                tempText += ":"
+                tempText += time.sec.toString() + ":"
 
                 //set milis format
                 if(time.milis < 10){
-                    tempText += "00" + time.milis.toString()
+                    tempText += "00"
                 }
                 else if(time.milis < 100){
-                    tempText += "0" + time.milis.toString()
+                    tempText += "0"
                 }
-                else{
-                    tempText += time.milis.toString()
-                }
+                tempText += time.milis.toString()
 
                 //update time text
                 this.time.text = tempText
@@ -137,7 +130,8 @@ export default defineComponent({
                 this.modal.text = "YOU WIN"
                 this.modal.win = true
             }
-        }
+        },
+
     }
 })
 </script>

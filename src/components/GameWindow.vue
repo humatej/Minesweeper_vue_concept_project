@@ -26,7 +26,7 @@ export default defineComponent({
         let grid_temp:any[][] = []
         let grid_row:any[] = []
 
-        //making plane temp game grid
+        //make grid of boxes object
         for (let i = 0; i < box_counter; i++) {
             grid_row = []
             for (var j = 0; j < box_counter; j++) {
@@ -38,6 +38,7 @@ export default defineComponent({
             }
             grid_temp[i] = [...grid_row]
         }
+
 
         //single box config//
         //********************//
@@ -106,14 +107,14 @@ export default defineComponent({
         },
         setchecked(x:number,y:number){
             this.gameGrid [x][y].checked = !this.gameGrid [x][y].checked
-            
+
             if(this.gameGrid [x][y].checked){
                 this.checkedBoxes++
             }
             else{
                 this.checkedBoxes--
             }
-
+            
             if(this.gameGrid [x][y].mine){
                 if(this.gameGrid [x][y].checked){
                     this.checkedMines++
@@ -158,63 +159,17 @@ export default defineComponent({
             }
 
             //checking for mines, flag and already uncovered box nearby and recursivly call again this function
-            //*****************************************************************
-            if(this.gameGrid [x][y].nearby_mine_counter > 0){ return null}
-
-            //up, down, left and right
-            if(x + 1 < this.gameInit.size  && !this.gameGrid [x + 1][y].mine && !this.gameGrid [x + 1][y].visibility && !this.gameGrid[x + 1][y].checked){
-                this.gameGrid [x + 1][y].visibility = true
-                if(this.gameGrid [x + 1][y].nearby_mine_counter == 0){
-                    this.uncover(x + 1, y)
+            if(this.gameGrid [x][y].nearby_mine_counter == 0){
+                for(let i = -1; i < 2; i++){
+                    for(let j = -1; j < 2; j++){
+                        if(x+i >= 0 && x+i < this.gameInit.size && y+j >= 0 && y+j < this.gameInit.size){
+                            if(!this.gameGrid [x+i][y+j].visibility && !this.gameGrid [x+i][y+j].mine && !this.gameGrid [x+i][y+j].checked){
+                                this.uncover(x+i,y+j)
+                            }
+                        }
+                    }
                 }
             }
-            if(y + 1 < this.gameInit.size && !this.gameGrid[x][y + 1].mine && !this.gameGrid[x][y + 1].visibility && !this.gameGrid[x][y + 1].checked){
-                this.gameGrid[x][y + 1].visibility = true
-                if(this.gameGrid[x][y + 1].nearby_mine_counter == 0){
-                    this.uncover(x, y + 1)
-                }
-            }
-            if(x - 1 >= 0 && !this.gameGrid[x - 1][y].mine && !this.gameGrid[x - 1][y].visibility && !this.gameGrid[x - 1][y].checked){
-                this.gameGrid[x - 1][y].visibility = true
-                if(this.gameGrid[x - 1][y].nearby_mine_counter == 0){
-                    this.uncover(x - 1, y)
-                }
-            }
-            if(y - 1 >= 0  && !this.gameGrid[x][y - 1].mine && !this.gameGrid[x][y - 1].visibility && !this.gameGrid[x][y - 1].checked){
-                this.gameGrid[x][y - 1].visibility = true
-                if(this.gameGrid[x][y - 1].nearby_mine_counter == 0){
-                    this.uncover(x, y - 1)
-                }
-            }
-            
-            //up, down, left and right corner
-            if((y - 1 >= 0  && x - 1 >= 0) && !this.gameGrid[x - 1][y - 1].mine && !this.gameGrid[x - 1][y - 1].visibility && !this.gameGrid[x - 1][y - 1].checked){
-                this.gameGrid[x - 1][y - 1].visibility = true
-                if(this.gameGrid[x - 1][y - 1].nearby_mine_counter == 0){
-                    this.uncover(x - 1, y - 1)
-                }
-            }
-            if((y - 1 >= 0  && x + 1 < this.gameInit.size) && !this.gameGrid[x + 1][y - 1].mine && !this.gameGrid[x + 1][y - 1].visibility && !this.gameGrid[x + 1][y - 1].checked){
-                this.gameGrid[x + 1][y - 1].visibility = true
-                if(this.gameGrid[x + 1][y - 1].nearby_mine_counter == 0){
-                    this.uncover(x + 1, y - 1)
-                }
-            }
-            if((y + 1 < this.gameInit.size  && x + 1 < this.gameInit.size) && !this.gameGrid[x + 1][y + 1].mine && !this.gameGrid[x + 1][y + 1].visibility && !this.gameGrid[x + 1][y + 1].checked){
-                this.gameGrid[x + 1][y + 1].visibility = true
-                if(this.gameGrid[x + 1][y + 1].nearby_mine_counter == 0){
-                    this.uncover(x + 1, y + 1)
-                }
-            }
-            if((y + 1 < this.gameInit.size  && x - 1 >= 0 ) && !this.gameGrid[x - 1][y + 1].mine && !this.gameGrid[x - 1][y + 1].visibility && !this.gameGrid[x - 1][y + 1].checked){
-                this.gameGrid[x - 1][y + 1].visibility = true
-                if(this.gameGrid[x - 1][y + 1].nearby_mine_counter == 0){
-                    this.uncover(x - 1, y + 1)
-                }
-            }
-            //*****************************************************************
-            
-            
         },
         makeScreen(){
         //game settings
@@ -244,6 +199,7 @@ export default defineComponent({
         while(minesCounter < this.gameInit.mines) {
             
             //select random location for mine
+
             x = Math.floor( Math.random() * this.gameInit.size )
             y = Math.floor( Math.random() * this.gameInit.size )
             
@@ -254,40 +210,25 @@ export default defineComponent({
             }
         }
         
-        //adding count of near by mines
-        for(let y = 0; y < this.gameInit.size; y++){
-            for(let x = 0; x < this.gameInit.size; x++){
-                if(grid_temp[x][y].mine){
-                        //up, down, left and right
-                        if(y - 1 >= 0 && !grid_temp[x][y - 1].mine){
-                            grid_temp[x][y - 1].nearby_mine_counter++
-                        }
-                        if((x + 1 < this.gameInit.size && y - 1 >= 0) && !grid_temp[x + 1][y - 1].mine){
-                                grid_temp[x + 1][y - 1].nearby_mine_counter++
-                        }
-                        if((x - 1 >= 0 && y - 1 >= 0) && !grid_temp[x - 1][y - 1].mine){
-                            grid_temp[x - 1][y - 1].nearby_mine_counter++
-                        }
-                        if(y + 1 < this.gameInit.size && !grid_temp[x][y + 1].mine){
-                            grid_temp[x][y + 1].nearby_mine_counter++
-                        }
+        //adding count of mines to box nearby mines but use x
 
-                        //up, down, left and right corner
-                        if((x + 1 < this.gameInit.size && y + 1 < this.gameInit.size) && !grid_temp[x + 1][y + 1].mine){
-                            grid_temp[x + 1][y + 1].nearby_mine_counter++
+
+
+        for(let x = 0; x < this.gameInit.size; x++){
+            for(let y = 0; y < this.gameInit.size; y++){
+                if(grid_temp[x][y].mine){
+                    for(let k = -1; k < 2; k++){
+                        for(let l = -1; l < 2; l++){
+                            if(x + k >= 0 && x + k < this.gameInit.size && y + l >= 0 && y + l < this.gameInit.size){
+                                if(!grid_temp[x + k][y + l].mine){
+                                    grid_temp[x + k][y + l].nearby_mine_counter++
+                                }
+                            }
                         }
-                        if(x - 1 >= 0 && !grid_temp[x - 1][y].mine){
-                            grid_temp[x - 1][y].nearby_mine_counter++
-                        }
-                        if((x - 1 >= 0 && y + 1 < this.gameInit.size) && !grid_temp[x - 1][y + 1].mine){
-                            grid_temp[x - 1][y + 1].nearby_mine_counter++
-                        }
-                        if(x + 1 < this.gameInit.size && !grid_temp[x + 1][y].mine){
-                            grid_temp[x + 1][y].nearby_mine_counter++
-                        }
-                    } 
+                    }
                 }
             }
+        }
             //update real game grid by temp grid
             this.gameGrid = grid_temp
         },
