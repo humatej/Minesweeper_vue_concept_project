@@ -1,12 +1,12 @@
 <template>
     <div class="container d-flex justify-content-center pt-3">
-        <div id="gam_set" class="rounded shadow-lg d-flex justify-content-between align-center p-2">
+        <div id="gameSettings" class="rounded shadow-lg d-flex justify-content-between align-center p-2">
             <div class="btn-group dropup">
                 <button type="button" class="btn shadow-lg darker-green text-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     {{this.currentDif}}
                 </button>
-                <ul id="dif" class="dropdown-menu">
-                    <li class="text-center" v-for="item in dif_list" :key="item">
+                <ul id="difficultyNav" class="dropdown-menu">
+                    <li class="text-center" v-for="item in difficulties" :key="item">
                         <a @click="setDif(item)" class="text-light btn border-bottom border-1 m-1">{{item}}</a>
                     </li>
                 </ul>
@@ -31,19 +31,23 @@ import { defineComponent, ref} from 'vue'
 
 export default defineComponent({
     setup(){
-        const dif_list = ref<string[]>([
+        const difficulties = ref<string[]>([
             "Easy", "Medium", "Hard"
         ])
+
+        //easy by default
         const currentDif = ref<string>("Easy")
+
         const time = ref({
             text: "00:00:000",
             newGame: true})
+            
         const modal = ref({
             open: false,
             text: "",
             win: false,
         })
-        return {dif_list, currentDif, time, modal}
+        return {difficulties, currentDif, time, modal}
     },
     props:{
         playerGameData: Object
@@ -53,31 +57,18 @@ export default defineComponent({
             this.time.text = text
             return this.time.text
         },
-        setText(){
-            return this.time.text
-        },
         start(){
             this.time.newGame = true
             this.$emit('passDif',this.currentDif)
             this.$emit('gameNew')
         },
-        setDif(dif:string){
-            this.currentDif = dif
-        },
-        sleep(milliseconds:number) {
-            let time = new Date()
-            const date = time.getTime()
-            let currentDate = null;
-            do {
-                time = new Date()
-                currentDate = time.getTime();
-            } while (currentDate - date < milliseconds);
+        setDif(difficultyNav:string){
+            this.currentDif = difficultyNav
         },
         async stopWatch(){
             this.time.newGame = false
             let t = new Date()
             let t1 = t.getTime()
-            let t2 = 0   
             let time = {
                 min: 0,
                 sec: 0,
@@ -100,6 +91,7 @@ export default defineComponent({
                     }
                 }
                 tempText = ""
+
                 //set minutes format
                 if(time.min < 10){
                     tempText += "0" + time.min.toString()
@@ -108,6 +100,7 @@ export default defineComponent({
                     tempText += time.min.toString()
                 }
                 tempText += ":"
+
                 //set second format                                                                                                                                                                                                                                                  
                 if(time.sec < 10){
                     tempText += "0" + time.sec.toString()
@@ -116,6 +109,7 @@ export default defineComponent({
                     tempText += time.sec.toString()
                 }
                 tempText += ":"
+
                 //set milis format
                 if(time.milis < 10){
                     tempText += "00" + time.milis.toString()
@@ -127,12 +121,14 @@ export default defineComponent({
                     tempText += time.milis.toString()
                 }
 
+                //update time text
                 this.time.text = tempText
             }
         },
         endGame(playerData:any){
             this.modal.open = true
             this.time.newGame = true
+
             if(playerData?.checked_mines != playerData?.all_mines){
                 this.modal.text = "YOU LOSE"
                 this.modal.win = false
@@ -169,7 +165,7 @@ export default defineComponent({
     .darker-green:hover::before{
         opacity: 1;
     }
-    #gam_set{
+    #gameSettings{
         width: $widthPx;
         height: 60px;
         background-image: linear-gradient(to right bottom, #03b365, #00b068, #00ad6b, #00aa6e, #00a770);
@@ -208,10 +204,10 @@ export default defineComponent({
         left:90%;
         font-weight: 500;
     }
-    #dif{
+    #difficultyNav{
         background-image: linear-gradient(to right bottom, #006d52, #00654c, #005c45, #00543f, #004c39);
     }
-    #dif li a:hover{
+    #difficultyNav li a:hover{
          background-image: linear-gradient(to right bottom, #004c39, #004534, #003f2f, #00382a, #003225);
     }
 </style>

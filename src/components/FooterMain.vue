@@ -1,8 +1,8 @@
 <template>
     <nav id="footer" class="navbar navbar-expand-sm navbar-dark">
       <div class="container-fluid d-flex flex-column justify-content-center text-light">
-          <p class="p-1">This page was created by <a href="#">Matej Hušla</a></p>
-          <p class="p-1">2022 ©</p>
+          <p class="p-1">This page was created by <a href="https://github.com/humatej" target="_blank">Matej Hušla</a></p>
+          <p class="p-1">© 2022</p>
       </div>
     </nav>
     

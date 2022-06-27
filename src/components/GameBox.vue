@@ -1,8 +1,8 @@
 <template>
-    <v-rect class="user-select-none d-flex justify-content-center align-items-center text-light" v-on:click.right="check"  @click="send" :style="w" :class="setBg">
-        {{atr.num  > 0 && atr.vis && !atr.checked? atr.num: ''}}
-        <i class="bi bi-flag-fill" v-show="atr.checked"></i>
-        <i v-show="atr.vis && atr.mine && !atr.checked" class="bi bi-patch-exclamation-fill"></i>
+    <v-rect class="user-select-none d-flex justify-content-center align-items-center text-light" v-on:click.right="check" @click="send" :style="boxStyle" :class="setBackground">
+        <span v-show="box.nearby_mine_counter  > 0 && box.visibility && !box.checked">{{box.nearby_mine_counter}}</span>
+        <i class="bi bi-flag-fill" v-show="box.checked"></i>
+        <i v-show="box.visibility && box.mine && !box.checked" class="bi bi-patch-exclamation-fill"></i>
     </v-rect>
 </template>
 <script lang="ts">
@@ -14,31 +14,31 @@ export default defineComponent({
         return {checked}
     },
     props: {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-        w : Object,
-        atr : Object,
+        boxStyle : Object,
+        box : Object,
     },
     methods: {
         send(){
-            this.$emit('loc', this.atr?.x, this.atr?.y)
+            this.$emit('loc', this.box?.x, this.box?.y)
         },
         check() {
-            if(!this.atr?.vis){
+            if(!this.box?.visibility){
                 this.checked = !this.checked
-                this.$emit('setcheck',this.atr?.x, this.atr?.y)
+                this.$emit('setcheck',this.box?.x, this.box?.y)
             }
             return this.checked
         },
         
     },
     computed:{
-        setBg(){
-            if(!this.atr?.mine && this.atr?.vis && this.atr?.checked){
+        setBackground(){
+            if(!this.box?.mine && this.box?.visibility && this.box?.checked){
                 return 'bg-danger'
             }
-            else if(this.atr?.mine && this.atr?.vis && this.atr?.checked){
+            else if(this.box?.mine && this.box?.visibility && this.box?.checked){
                 return 'bg-success'
             }
-            else if(!this.atr?.vis || this.atr?.mine){
+            else if(!this.box?.visibility || this.box?.mine){
                 return 'unchecked'
             }
             else{
