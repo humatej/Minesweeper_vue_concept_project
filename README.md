@@ -1,5 +1,7 @@
 # minesweeper_game
-This is learning project in Vue js
+This is learning project in Vue js. You can run it locally or use this link with netlify hosting:
+
+https://minesweeper-vue-project-humatej.netlify.app/
 
 ## Project setup
 ```
