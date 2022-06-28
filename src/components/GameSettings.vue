@@ -58,6 +58,9 @@ export default defineComponent({
             return this.time.text
         },
         start(){
+            if(this.modal.open){
+                this.modal.open = false
+            }
             this.time.newGame = true
             this.$emit('passDif',this.currentDif)
             this.$emit('gameNew')

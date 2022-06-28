@@ -1,7 +1,7 @@
 <template>
     <div class="container d-flex flex-column justify-content-center pt-3">
         <div id="checkedCounter" class="text-light text-center mt-3">
-            <h3 class="rounded ps-3 pe-3 pt-2 pb-2 mx-auto">Mines left: {{this.gameInit.mines - this.checkedBoxes}}</h3>
+            <h3 class="rounded ps-3 pe-3 pt-2 pb-2 mx-auto">Mines left: {{this.gameInit.mines - this.checkedBoxes > -1 ? this.gameInit.mines - this.checkedBoxes : 0}}</h3>
         </div>
         <div :style="gridStyle"  id="game_window" class="container-fluid rounded shadow-lg" oncontextmenu="return false">
             <div class="row" v-for="line in gameGrid" :key="line">
