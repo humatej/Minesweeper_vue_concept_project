@@ -114,7 +114,7 @@ export default defineComponent({
             else{
                 this.checkedBoxes--
             }
-            
+            //refactor this
             if(this.gameGrid [x][y].mine){
                 if(this.gameGrid [x][y].checked){
                     this.checkedMines++
